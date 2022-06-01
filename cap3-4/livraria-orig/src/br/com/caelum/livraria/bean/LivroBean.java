@@ -58,7 +58,10 @@ public class LivroBean {
 		Autor autor = new DAO<Autor>(Autor.class).buscaPorId(this.autorId);
 		this.livro.adicionaAutor(autor);
 	}
-	
+    public String formAutor() {
+        System.out.println("Chamanda o formulario do Autor");
+        return "autor?faces-redirect=true";
+    }
 	public List<Livro> getLivros() {
 		  return new DAO<Livro>(Livro.class).listaTodos();
 	}
