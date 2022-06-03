@@ -19,6 +19,23 @@
 					</h:panelGrid>
 				</fieldset>
 			</h:form>
+			<h:form>
+				<h:dataTable value="#{autorBean.allAutores}" var="autor" id="tabelaAutores" >
+					<h:column>
+						<h:outputText value="#{autor.nome}"></h:outputText>
+					</h:column>
+					<h:column>
+						<h:commandLink value="Remover" action="#{autorBean.remover(autor)}"></h:commandLink>
+					  </h:column>
+					  
+					  <h:column>
+						<h:commandLink value="Editar" action="#{autorBean.editar(autor)}"></h:commandLink>
+					  </h:column>
+				</h:dataTable>
+			</h:form>
+		 </ui:define>
+		 <ui:define name="texto">
+		 	Cadastro de Autores
 		 </ui:define>
 	</ui:composition>
 </html>

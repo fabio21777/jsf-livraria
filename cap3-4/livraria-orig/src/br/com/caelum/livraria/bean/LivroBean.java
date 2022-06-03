@@ -18,7 +18,7 @@ import br.com.caelum.livraria.modelo.Livro;
 public class LivroBean {
 
 	private Livro livro = new Livro();
-	
+
 	private Integer autorId;
 
 	public Integer getAutorId() {
@@ -32,12 +32,12 @@ public class LivroBean {
 	public Livro getLivro() {
 		return livro;
 	}
-	
-	public List<Autor> getAutores(){
+
+	public List<Autor> getAutores() {
 		return new DAO<Autor>(Autor.class).listaTodos();
 	}
-	
-	public List<Autor>getAutoresDoLivro(){
+
+	public List<Autor> getAutoresDoLivro() {
 		return this.livro.getAutores();
 	}
 
@@ -45,32 +45,57 @@ public class LivroBean {
 		System.out.println("Gravando livro " + this.livro.getTitulo());
 
 		if (livro.getAutores().isEmpty()) {
-            FacesContext.getCurrentInstance().addMessage("autor",  new FacesMessage("Livro deve ter pelo menos um Autor"));
-            return;
+			FacesContext.getCurrentInstance().addMessage("autor",
+					new FacesMessage("Livro deve ter pelo menos um Autor"));
+			return;
 		}
-
-		new DAO<Livro>(Livro.class).adiciona(this.livro);
-		this.livro = new  Livro();
+		if(this.livro.getId() == null){
+			new DAO<Livro>(Livro.class).adiciona(this.livro);
+		}else{
+			new DAO<Livro>(Livro.class).atualiza(this.livro);
+		}
+		
+		this.livro = new Livro();
 	}
-	
-	public void gravarAutor(){
-		System.out.println("Gravando autor ... " );
+
+	public void gravarAutor() {
+		System.out.println("Gravando autor ... ");
 		Autor autor = new DAO<Autor>(Autor.class).buscaPorId(this.autorId);
 		this.livro.adicionaAutor(autor);
 	}
-    public String formAutor() {
-        System.out.println("Chamanda o formulario do Autor");
-        return "autor?faces-redirect=true";
-    }
-	public List<Livro> getLivros() {
-		  return new DAO<Livro>(Livro.class).listaTodos();
-	}
-	public void comecaComDigitoUm(FacesContext fc, UIComponent component, Object value) throws ValidatorException {
 
-	    String valor = value.toString();
-	    if (!valor.startsWith("1")) {
-	        throw new ValidatorException(new FacesMessage("Deveria começar com 1"));
-	    }
+	public String formAutor() {
+		System.out.println("Chamanda o formulario do Autor");
+		return "autor?faces-redirect=true";
+	}
+
+	public List<Livro> getLivros() {
+		return new DAO<Livro>(Livro.class).listaTodos();
+	}
+
+	public void comecaComDigitoUm(FacesContext fc, UIComponent component,
+			Object value) throws ValidatorException {
+
+		String valor = value.toString();
+		if (!valor.startsWith("1")) {
+			throw new ValidatorException(new FacesMessage(
+					"Deveria começar com 1"));
+		}
+	}
+	
+	public void remover(Livro livro){
+		System.out.println("removendo .......");
+		new DAO<Livro>(Livro.class).remove(livro);
+	}
+	
+	public void editar(Livro livro){
+		System.out.println("Editando .......");
+		this.livro = livro;
+	}
+	
+	public void removerAutorDoLivro(Autor autor){
+		System.out.println("Removendo Autor .......");
+		this.livro.removeAutor(autor);
 	}
 
 }

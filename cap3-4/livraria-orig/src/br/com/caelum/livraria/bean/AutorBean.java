@@ -1,10 +1,13 @@
 package br.com.caelum.livraria.bean;
 
+import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import br.com.caelum.livraria.dao.DAO;
 import br.com.caelum.livraria.modelo.Autor;
+import br.com.caelum.livraria.modelo.Livro;
 
 @ManagedBean
 public class AutorBean {
@@ -14,12 +17,29 @@ public class AutorBean {
 	public Autor getAutor() {
 		return autor;
 	}
+	
+	public List<Autor> getAllAutores(){
+		return new DAO<Autor>(Autor.class).listaTodos();
+	}
 
 	public String gravar() {
 		System.out.println("Gravando autor " + this.autor.getNome());
-
-		new DAO<Autor>(Autor.class).adiciona(this.autor);
+		if(this.autor == null ){
+			new DAO<Autor>(Autor.class).adiciona(this.autor);
+		}else{
+			new DAO<Autor>(Autor.class).atualiza(this.autor);
+		}
+		
 		this.autor = new Autor();
 		return "livro?faces-redirect=true";
+	}
+	
+	public void remover(Autor autor){
+		System.out.println("apagando autor .....");
+		new DAO<Autor>(Autor.class).remove(autor);
+	}
+	public void editar(Autor autor){
+		System.out.println("Editando .......");
+		this.autor = autor;
 	}
 }

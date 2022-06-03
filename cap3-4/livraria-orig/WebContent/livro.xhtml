@@ -55,40 +55,62 @@
 						<h:column>
 							<h:outputText value="#{autor.nome}"></h:outputText>
 						</h:column>
+						
+						<h:column>
+						    <h:commandLink value="X" action="#{livroBean.removerAutorDoLivro(autor)}" />
+						</h:column>
+						
 					</h:dataTable>
 					<br/>
 					<h:commandLink value="Cadastrar novo autor" action="#{livroBean.formAutor}" immediate="true"/>
 				</fieldset>
 		
 				<h:commandButton value="Gravar" action="#{livroBean.gravar}">
-					<f:ajax execute="@form" render="@form :tabelaLivros" />
+					<f:ajax execute="@form" render="@form :formTabelaLivro:tabelaLivros" />
 				</h:commandButton>
 			</h:form>
-
-			<h:dataTable id="tabelaLivros" value="#{livroBean.livros}" var="livro">
-			
-			  <h:column>
-			    <f:facet name="header">Título</f:facet>
-			    <h:outputText value="#{livro.titulo}" />
-			  </h:column>
-			
-			  <h:column>
-			    <f:facet name="header">ISBN</f:facet>
-			    <h:outputText value="#{livro.isbn}" />
-			  </h:column>
-			
-			  <h:column>
-			    <f:facet name="header">Preço</f:facet>
-			    <h:outputText value="#{livro.preco}" />
-			  </h:column>
-			
-			  <h:column>
-			    <f:facet name="header">Data</f:facet>
-			    <h:outputText value="#{livro.dataLancamento.time}">
-			    	 <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
-			    </h:outputText>
-			  </h:column>
-			</h:dataTable>
+			<h:form id="formTabelaLivro">
+				<h:dataTable id="tabelaLivros" value="#{livroBean.livros}" var="livro">
+				
+				  <h:column>
+				    <f:facet name="header">Título</f:facet>
+				    <h:outputText value="#{livro.titulo}" />
+				  </h:column>
+				
+				  <h:column>
+				    <f:facet name="header">ISBN</f:facet>
+				    <h:outputText value="#{livro.isbn}" />
+				  </h:column>
+				
+				  <h:column>
+				    <f:facet name="header">Preço</f:facet>
+				    <h:outputText value="#{livro.preco}" />
+				  </h:column>
+				
+				  <h:column>
+				    <f:facet name="header">Data</f:facet>
+				    <h:outputText value="#{livro.dataLancamento.time}">
+				    	 <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+				    </h:outputText>
+				  </h:column>
+				  
+				  <h:column>
+				    <f:facet name="header">Data</f:facet>
+					<h:commandLink value="Remover" action="#{livroBean.remover(livro)}"></h:commandLink>
+				  </h:column>
+				  
+				  <h:column>
+				    <f:facet name="header">Data</f:facet>
+					<h:commandLink value="Editar" action="#{livroBean.editar(livro)}"></h:commandLink>
+				  </h:column>
+				  
+				  
+				</h:dataTable>
+			</h:form>
 		</ui:define>
+		
+		<ui:define name="texto">
+		 	Cadastro de Livros
+		 </ui:define>
 	</ui:composition>
 </html>
