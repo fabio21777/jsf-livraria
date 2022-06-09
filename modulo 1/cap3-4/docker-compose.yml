@@ -8,5 +8,3 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: livrariadb
-        volumes:
-            - /var/lib/mysql56-data:/var/lib/mysql
